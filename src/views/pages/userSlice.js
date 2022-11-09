@@ -17,8 +17,17 @@ export const userSlice = createSlice({
                 state.isLogin = false;
             }
         },
+        setCurrentUser: (state, actions) => {
+            const token = actions.payload;
+
+            // Save to localStorange
+            localStorage.setItem("token", token);
+
+            // Change state
+            state.isLogin = true;
+        },
     },
 });
 
-export const { checkUserLogin } = userSlice.actions;
+export const { checkUserLogin, setCurrentUser } = userSlice.actions;
 export default userSlice.reducer;
