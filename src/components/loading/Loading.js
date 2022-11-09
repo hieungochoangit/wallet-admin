@@ -1,8 +1,12 @@
 import React from "react";
-import { CSpinner } from "@coreui/react";
+import { CButton, CSpinner } from "@coreui/react";
 
 const Loading = () => {
-    return <CSpinner component="span" size="sm" variant="grow" aria-hidden="true" />;
+    return (
+        <CButton disabled>
+            <CSpinner component="span" size="sm" variant="grow" aria-hidden="true" />
+        </CButton>
+    );
 };
 
 export default Loading;

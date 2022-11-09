@@ -8,6 +8,7 @@ import {
     CCol,
     CContainer,
     CForm,
+    CFormText,
     CFormInput,
     CInputGroup,
     CInputGroupText,
@@ -20,13 +21,20 @@ import userApi from "src/api/userApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "../userSlice";
 import { useEffect } from "react";
+import Loading from "src/components/loading/Loading";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm();
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const isLogin = useSelector((state) => state.user.isLogin);
 
@@ -38,10 +46,11 @@ const Login = () => {
         }
     }, [isLogin]);
 
-    const handleClickLogin = async () => {
+    const onSubmit = async () => {
+        setLoading(true);
         const data = {
-            username,
-            password,
+            username: watch("username"),
+            password: watch("password"),
         };
 
         const response = await userApi.login(data);
@@ -65,41 +74,61 @@ const Login = () => {
                         <CCardGroup>
                             <CCard className="p-4">
                                 <CCardBody>
-                                    <CForm>
-                                        <h1>Login</h1>
-                                        <p className="text-medium-emphasis">Sign In to your account</p>
-                                        <CInputGroup className="mb-3">
+                                    <CForm onSubmit={handleSubmit(onSubmit)}>
+                                        <h1>Đăng nhập</h1>
+                                        <p className="text-medium-emphasis">Đăng nhập vào hệ thống của bạn</p>
+                                        <CInputGroup className="mb-2">
                                             <CInputGroupText>
                                                 <CIcon icon={cilUser} />
                                             </CInputGroupText>
                                             <CFormInput
-                                                value={username}
-                                                onChange={(e) => setUsername(e.target.value)}
-                                                placeholder="Username"
+                                                placeholder="Tài khoản"
                                                 autoComplete="username"
+                                                {...register("username", { required: true, minLength: 6 })}
                                             />
                                         </CInputGroup>
-                                        <CInputGroup className="mb-4">
+                                        {errors.username?.type === "required" && (
+                                            <CFormText style={{ color: "red" }} className="help-block mb-2">
+                                                Vui lòng nhập tài khoản của bạn
+                                            </CFormText>
+                                        )}
+                                        {errors.username?.type === "minLength" && (
+                                            <CFormText style={{ color: "red" }} className="help-block mb-2">
+                                                Tài khoản tối thiểu 6 ký tự
+                                            </CFormText>
+                                        )}
+
+                                        <CInputGroup className="mb-2">
                                             <CInputGroupText>
                                                 <CIcon icon={cilLockLocked} />
                                             </CInputGroupText>
                                             <CFormInput
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
                                                 type="password"
-                                                placeholder="Password"
+                                                placeholder="Mật khẩu"
                                                 autoComplete="current-password"
+                                                {...register("password", { required: true, minLength: 6 })}
                                             />
                                         </CInputGroup>
+                                        {errors.password?.type === "required" && (
+                                            <CFormText style={{ color: "red" }} className="help-block mb-2">
+                                                Vui lòng nhập mật khẩu
+                                            </CFormText>
+                                        )}
+                                        {errors.password?.type === "minLength" && (
+                                            <CFormText style={{ color: "red" }} className="help-block mb-2">
+                                                Mật khẩu tối thiểu 6 ký tự
+                                            </CFormText>
+                                        )}
+
                                         <CRow>
                                             <CCol xs={6}>
-                                                <CButton
-                                                    onClick={() => handleClickLogin()}
-                                                    color="primary"
-                                                    className="px-4"
-                                                >
-                                                    Login
-                                                </CButton>
+                                                {loading ? (
+                                                    <Loading />
+                                                ) : (
+                                                    <CButton color="primary" className="px-4" type="submit">
+                                                        Login
+                                                    </CButton>
+                                                )}
                                             </CCol>
                                         </CRow>
                                     </CForm>
