@@ -11,10 +11,23 @@ import {
     CFormTextarea,
     CRow,
     CFormSelect,
+    CFormText,
 } from "@coreui/react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const CreateCategory = () => {
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm();
+
+    const onSubmit = (data) => {
+        console.log(data);
+    };
+
     return (
         <>
             <div className="d-flex justify-content-end">
@@ -27,33 +40,51 @@ const CreateCategory = () => {
                     <h1>Tạo danh mục</h1>
                 </CCardHeader>
                 <CCardBody>
-                    <CForm>
+                    <CForm onSubmit={handleSubmit(onSubmit)}>
                         <div className="mb-3">
                             <CFormLabel htmlFor="exampleFormControlInput1">
                                 Tên danh mục <span style={{ color: "red" }}>*</span>
                             </CFormLabel>
-                            <CFormInput type="text" placeholder="tên danh mục" />
+                            <CFormInput
+                                {...register("categoryName", { required: true })}
+                                type="text"
+                                placeholder="tên danh mục"
+                            />
+                            {errors.categoryName?.type === "required" && (
+                                <CFormText style={{ color: "red" }} className="help-block mb-2">
+                                    Vui lòng nhập tên danh mục
+                                </CFormText>
+                            )}
                         </div>
                         <div className="mb-3">
                             <CFormLabel htmlFor="exampleFormControlTextarea1">Slug</CFormLabel>
-                            <CFormInput type="text" disabled placeholder="slug" />
+                            <CFormInput {...register("categorySlug")} type="text" disabled placeholder="slug" />
                         </div>
                         <div className="mb-3">
                             <CFormLabel htmlFor="exampleFormControlInput1">
                                 Mô tả danh mục <span style={{ color: "red" }}>*</span>
                             </CFormLabel>
-                            <CFormInput type="text" placeholder="mô tả danh mục" />
+                            <CFormInput
+                                {...register("categoryDesc", { required: true })}
+                                type="text"
+                                placeholder="mô tả danh mục"
+                            />
+                            {errors.categoryDesc?.type === "required" && (
+                                <CFormText style={{ color: "red" }} className="help-block mb-2">
+                                    Vui lòng nhập mô tả danh mục
+                                </CFormText>
+                            )}
                         </div>
                         <div className="mb-3">
                             <CFormLabel htmlFor="exampleFormControlInput1">
                                 Loại danh mục <span style={{ color: "red" }}>*</span>
                             </CFormLabel>
-                            <CFormSelect aria-label="Default select example">
+                            <CFormSelect {...register("categoryType")} aria-label="Default select example">
                                 <option value="1">VIP</option>
                                 <option value="2">NORMAL</option>
                             </CFormSelect>
                         </div>
-                        <CButton>Tạo</CButton>
+                        <CButton type="submit">Tạo</CButton>
                     </CForm>
                 </CCardBody>
             </CCard>
