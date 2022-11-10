@@ -5,6 +5,7 @@ const axiosClient = axios.create({
     headers: {
         "Content-Type": "application/json",
         "Cache-Control": "no-cache,no-store",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
 });
 
