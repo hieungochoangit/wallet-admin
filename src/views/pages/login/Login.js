@@ -23,6 +23,7 @@ import { setCurrentUser } from "../userSlice";
 import { useEffect } from "react";
 import Loading from "src/components/loading/Loading";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -63,6 +64,9 @@ const Login = () => {
             } else {
                 navigate("/login");
             }
+        } else {
+            toast(response.data.message);
+            setLoading(false);
         }
     };
 

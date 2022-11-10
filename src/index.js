@@ -7,9 +7,14 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store";
 
+// Toast
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 createRoot(document.getElementById("root")).render(
     <Provider store={store}>
         <App />
+        <ToastContainer />
     </Provider>
 );
 
