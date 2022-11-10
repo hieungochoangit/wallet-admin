@@ -1,28 +1,35 @@
-import { CButton } from "@coreui/react";
+import { CButton, CSpinner } from "@coreui/react";
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import categoryApi from "src/api/categoryApi";
 import CategoryTable from "./categoryTable/CategoryTable";
-
-const dataCategory = [
-    {
-        id: 1,
-        categoryName: "Ví da",
-        categorySlug: "vi-da",
-        categoryDesc: "Cac loai vi da vip",
-        categoryType: "VIP",
-        activity: "10 sec ago",
-    },
-    {
-        id: 2,
-        categoryName: "Ví da",
-        categorySlug: "vi-da",
-        categoryDesc: "Cac loai vi da vip",
-        categoryType: "VIP",
-        activity: "10 sec ago",
-    },
-];
+import { updateListCategory } from "./categorySlice";
 
 const Category = () => {
+    const dispatch = useDispatch();
+    const [paginationParams, setPaginationParams] = useState({
+        page: 1,
+        limit: 10,
+    });
+    const [isLoading, setIsLoading] = useState(false);
+    const dataCategory = useSelector((state) => state.category.list);
+
+    useEffect(() => {
+        setIsLoading(true);
+        (async () => {
+            const response = await categoryApi.getListCategory(paginationParams);
+
+            if (response.statusCode === 0) {
+                dispatch(updateListCategory(response.data.categories));
+                setTotalPage(Math.ceil(response.data.total / 5));
+            }
+        })();
+        setIsLoading(false);
+    }, [paginationParams]);
+
     return (
         <div>
             <div className="d-flex justify-content-end">
@@ -30,7 +37,7 @@ const Category = () => {
                     <CButton className="mb-4">Thêm danh mục</CButton>
                 </Link>
             </div>
-            <CategoryTable data={dataCategory} />
+            {isLoading ? <CSpinner /> : <CategoryTable data={dataCategory} />}
         </div>
     );
 };

@@ -3,7 +3,6 @@ import { CButton, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCe
 
 const CategoryTable = (props) => {
     const { data } = props;
-
     return (
         <div>
             <CTable align="middle" className="mb-0 border" hover responsive>
