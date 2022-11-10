@@ -24,7 +24,6 @@ const Category = () => {
 
             if (response.statusCode === 0) {
                 dispatch(updateListCategory(response.data.categories));
-                setTotalPage(Math.ceil(response.data.total / 5));
             }
         })();
         setIsLoading(false);

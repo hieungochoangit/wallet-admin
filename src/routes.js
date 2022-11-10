@@ -52,11 +52,13 @@ const Widgets = React.lazy(() => import("./views/widgets/Widgets"));
 
 const Category = React.lazy(() => import("./views/category/Category"));
 const CreateCategory = React.lazy(() => import("./views/category/createCategory/CreateCategory"));
+const DetailCategory = React.lazy(() => import("./views/category/detailCategory/DetailCategory"));
 
 const routes = [
     { path: "/", exact: true, name: "Home" },
     { path: "/dashboard", name: "Dashboard", element: Dashboard },
     { path: "/category", name: "Category", element: Category },
+    { path: "/category/:id", name: "Category", element: DetailCategory },
     { path: "/category/create", name: "Create Category", element: CreateCategory },
     { path: "/theme", name: "Theme", element: Colors, exact: true },
     { path: "/theme/colors", name: "Colors", element: Colors },

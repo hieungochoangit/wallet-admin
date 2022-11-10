@@ -1,5 +1,6 @@
 import React from "react";
 import { CButton, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from "@coreui/react";
+import { Link } from "react-router-dom";
 
 const CategoryTable = (props) => {
     const { data } = props;
@@ -25,9 +26,11 @@ const CategoryTable = (props) => {
                             <CTableDataCell>{item.categoryDesc}</CTableDataCell>
                             <CTableDataCell>{item.categoryType}</CTableDataCell>
                             <CTableDataCell className="d-flex justify-content-center gap-2">
-                                <CButton size="sm" color="primary">
-                                    Sửa
-                                </CButton>
+                                <Link to={`/category/${item.id}`}>
+                                    <CButton size="sm" color="primary">
+                                        Xem
+                                    </CButton>
+                                </Link>
                                 <CButton size="sm" color="danger">
                                     Xóa
                                 </CButton>

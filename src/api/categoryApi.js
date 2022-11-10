@@ -7,6 +7,9 @@ const categoryApi = {
     getListCategory(params) {
         return axiosClient.get("/admin/category/list", { params });
     },
+    getDetailCategory(id) {
+        return axiosClient.get(`/admin/category/${id}`);
+    },
 };
 
 export default categoryApi;
