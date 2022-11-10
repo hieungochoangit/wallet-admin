@@ -1,5 +1,6 @@
 import { CButton } from "@coreui/react";
 import React from "react";
+import { Link } from "react-router-dom";
 import CategoryTable from "./categoryTable/CategoryTable";
 
 const dataCategory = [
@@ -25,7 +26,9 @@ const Category = () => {
     return (
         <div>
             <div className="d-flex justify-content-end">
-                <CButton className="mb-4">Thêm danh mục</CButton>
+                <Link to="/category/create">
+                    <CButton className="mb-4">Thêm danh mục</CButton>
+                </Link>
             </div>
             <CategoryTable data={dataCategory} />
         </div>
