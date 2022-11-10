@@ -13,10 +13,14 @@ import {
     CFormSelect,
     CFormText,
 } from "@coreui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { convertToSlug } from "src/common/functions";
+import categoryApi from "src/api/categoryApi";
 
 const CreateCategory = () => {
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -24,8 +28,16 @@ const CreateCategory = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (data) => {
+        const categorySlug = convertToSlug(data.categoryName);
+        data.categorySlug = categorySlug;
+
+        const response = await categoryApi.createCategory(data);
+
+        if (response) {
+            toast(response.data.message);
+            navigate("/category");
+        }
     };
 
     return (
@@ -57,10 +69,6 @@ const CreateCategory = () => {
                             )}
                         </div>
                         <div className="mb-3">
-                            <CFormLabel htmlFor="exampleFormControlTextarea1">Slug</CFormLabel>
-                            <CFormInput {...register("categorySlug")} type="text" disabled placeholder="slug" />
-                        </div>
-                        <div className="mb-3">
                             <CFormLabel htmlFor="exampleFormControlInput1">
                                 Mô tả danh mục <span style={{ color: "red" }}>*</span>
                             </CFormLabel>
@@ -80,8 +88,8 @@ const CreateCategory = () => {
                                 Loại danh mục <span style={{ color: "red" }}>*</span>
                             </CFormLabel>
                             <CFormSelect {...register("categoryType")} aria-label="Default select example">
-                                <option value="1">VIP</option>
-                                <option value="2">NORMAL</option>
+                                <option value="0">VIP</option>
+                                <option value="1">NORMAL</option>
                             </CFormSelect>
                         </div>
                         <CButton type="submit">Tạo</CButton>
