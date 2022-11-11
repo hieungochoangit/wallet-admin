@@ -11,8 +11,11 @@ const categoryApi = {
         return axiosClient.get(`/admin/category/${id}`);
     },
     updateCategory(data) {
-        return axiosClient.post('/admin/category/update', data);
-    }
+        return axiosClient.post("/admin/category/update", data);
+    },
+    deleteCategory(id) {
+        return axiosClient.get(`/admin/category/delete/${id}`);
+    },
 };
 
 export default categoryApi;

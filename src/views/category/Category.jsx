@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import categoryApi from "src/api/categoryApi";
 import CategoryTable from "./categoryTable/CategoryTable";
 import { updateListCategory } from "./categorySlice";
+import { toast } from "react-toastify";
 
 const Category = () => {
     const dispatch = useDispatch();
@@ -29,6 +30,21 @@ const Category = () => {
         setIsLoading(false);
     }, [paginationParams]);
 
+    const handleClickDelete = async (id) => {
+        const isDelete = confirm("Bạn có muốn xoá danh mục này không?");
+
+        if (isDelete) {
+            const response = await categoryApi.deleteCategory(id);
+
+            if (response.statusCode === 0) {
+                toast(response.data.message);
+                setPaginationParams((prevState) => {
+                    return { ...prevState };
+                });
+            }
+        }
+    };
+
     return (
         <div>
             <div className="d-flex justify-content-end">
@@ -36,7 +52,7 @@ const Category = () => {
                     <CButton className="mb-4">Thêm danh mục</CButton>
                 </Link>
             </div>
-            {isLoading ? <CSpinner /> : <CategoryTable data={dataCategory} />}
+            {isLoading ? <CSpinner /> : <CategoryTable onDelete={handleClickDelete} data={dataCategory} />}
         </div>
     );
 };

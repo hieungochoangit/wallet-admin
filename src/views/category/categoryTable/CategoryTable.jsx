@@ -3,7 +3,7 @@ import { CButton, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCe
 import { Link } from "react-router-dom";
 
 const CategoryTable = (props) => {
-    const { data } = props;
+    const { data, onDelete } = props;
     return (
         <div>
             <CTable align="middle" className="mb-0 border" hover responsive>
@@ -31,7 +31,7 @@ const CategoryTable = (props) => {
                                         Xem
                                     </CButton>
                                 </Link>
-                                <CButton size="sm" color="danger">
+                                <CButton onClick={() => onDelete(item.id)} size="sm" color="danger">
                                     Xóa
                                 </CButton>
                             </CTableDataCell>
