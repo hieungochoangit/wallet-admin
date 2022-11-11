@@ -10,6 +10,9 @@ const categoryApi = {
     getDetailCategory(id) {
         return axiosClient.get(`/admin/category/${id}`);
     },
+    updateCategory(data) {
+        return axiosClient.post('/admin/category/update', data);
+    }
 };
 
 export default categoryApi;
