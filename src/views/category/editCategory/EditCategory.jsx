@@ -38,7 +38,6 @@ const EditCategory = () => {
         (async () => {
             const response = await categoryApi.getDetailCategory(params.id);
 
-            console.log(response.data.data);
             if (response.statusCode === 0) {
                 setCategory(response.data.data);
             }
@@ -46,13 +45,23 @@ const EditCategory = () => {
     }, [params.id]);
 
     const onSubmit = async (data) => {
-        console.log("1");
+        const categorySlug = convertToSlug(data.categoryName);
+        data.categorySlug = categorySlug;
+        data.categoryId = params.id;
+
+        const response = await categoryApi.updateCategory(data);
+        if (response.statusCode === 0) {
+            toast(response.data.message);
+            navigate(`/category/${params.id}`);
+        } else {
+            toast(response.data.message);
+        }
     };
 
     return (
         <>
             <div className="d-flex justify-content-end">
-                <Link to="/category">
+                <Link to={`/category/${params.id}`}>
                     <CButton className="mb-4">Quay lại</CButton>
                 </Link>
             </div>
@@ -94,16 +103,7 @@ const EditCategory = () => {
                                 </CFormText>
                             )}
                         </div>
-                        <div className="mb-3">
-                            <CFormLabel htmlFor="exampleFormControlInput1">
-                                Loại danh mục <span style={{ color: "red" }}>*</span>
-                            </CFormLabel>
-                            <CFormSelect {...register("categoryType")} aria-label="Default select example">
-                                <option value="0">VIP</option>
-                                <option value="1">NORMAL</option>
-                            </CFormSelect>
-                        </div>
-                        <CButton type="submit">Tạo</CButton>
+                        <CButton type="submit">Cập nhật</CButton>
                     </CForm>
                 </CCardBody>
             </CCard>
