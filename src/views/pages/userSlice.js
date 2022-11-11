@@ -1,8 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import userApi from "src/api/userApi";
 
 const initialState = {
     isLogin: false,
+    username: "",
 };
+
+export const getUser = createAsyncThunk("user/setUser", async (data, { rejectWithValue }) => {
+    const response = await userApi.getUser();
+    return response;
+});
 
 export const userSlice = createSlice({
     name: "user",
@@ -26,6 +33,26 @@ export const userSlice = createSlice({
             // Change state
             state.isLogin = true;
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(getUser.pending, (state, actions) => {
+            console.log("get user pending");
+            console.log("state: ", state);
+            console.log("actions: ", actions);
+        });
+
+        builder.addCase(getUser.fulfilled, (state, actions) => {
+            console.log("get user fulfilled");
+            console.log("state: ", state);
+            console.log("actions: ", actions);
+            state.username = actions.payload.data.username;
+        });
+
+        builder.addCase(getUser.rejected, (state, actions) => {
+            console.log("get user rejected");
+            console.log("state: ", state);
+            console.log("actions: ", actions);
+        });
     },
 });
 

@@ -14,13 +14,13 @@ import {
 import CIcon from "@coreui/icons-react";
 import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from "@coreui/icons";
 
-import { AppBreadcrumb } from "./index";
 import { AppHeaderDropdown } from "./header/index";
 import { logo } from "src/assets/brand/logo";
 
 const AppHeader = () => {
     const dispatch = useDispatch();
     const sidebarShow = useSelector((state) => state.sidebarShow);
+    const username = useSelector((state) => state.user.username);
 
     return (
         <CHeader position="sticky" className="mb-4">
@@ -32,11 +32,7 @@ const AppHeader = () => {
                     <CIcon icon={logo} height={48} alt="Logo" />
                 </CHeaderBrand>
                 <CHeaderNav className="d-none d-md-flex me-auto">
-                    <CNavItem>
-                        <CNavLink to="/dashboard" component={NavLink}>
-                            Dashboard
-                        </CNavLink>
-                    </CNavItem>
+                    <CNavItem>Hello, {username}</CNavItem>
                 </CHeaderNav>
                 <CHeaderNav>
                     <CNavItem>
