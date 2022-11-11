@@ -11,7 +11,6 @@ const DetailCategory = () => {
     const [category, setCategory] = useState(null);
 
     useEffect(() => {
-        console.log(params);
         (async () => {
             const response = await categoryApi.getDetailCategory(params.id);
 
