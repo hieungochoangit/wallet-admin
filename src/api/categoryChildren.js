@@ -10,6 +10,9 @@ const categoryChildrenApi = {
     getDetailCategoryChildren(id) {
         return axiosClient.get(`/admin/category-children/detail/${id}`);
     },
+    updateCategory(data) {
+        return axiosClient.post("/admin/category-children/update", data);
+    },
 };
 
 export default categoryChildrenApi;
