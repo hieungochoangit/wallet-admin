@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import categoryApi from "src/api/categoryApi";
-import CategoryTable from "./categoryTable/CategoryTable";
+import CategoryList from "./categoryList/CategoryList";
 import { updateListCategory } from "./categorySlice";
 import { toast } from "react-toastify";
 
@@ -52,7 +52,7 @@ const Category = () => {
                     <CButton className="mb-4">Thêm danh mục</CButton>
                 </Link>
             </div>
-            {isLoading ? <CSpinner /> : <CategoryTable onDelete={handleClickDelete} data={dataCategory} />}
+            {isLoading ? <CSpinner /> : <CategoryList onDelete={handleClickDelete} data={dataCategory} />}
         </div>
     );
 };
