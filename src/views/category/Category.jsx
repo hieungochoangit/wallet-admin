@@ -21,14 +21,14 @@ const Category = () => {
     useEffect(() => {
         setIsLoading(true);
         (async () => {
-            const response = await categoryApi.getListCategory(paginationParams);
+            const response = await categoryApi.getListCategory();
 
             if (response.statusCode === 0) {
                 dispatch(updateListCategory(response.data.categories));
             }
         })();
         setIsLoading(false);
-    }, [paginationParams]);
+    }, []);
 
     const handleClickDelete = async (id) => {
         const isDelete = confirm("Bạn có muốn xoá danh mục này không?");

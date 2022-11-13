@@ -4,8 +4,8 @@ const categoryApi = {
     createCategory(data) {
         return axiosClient.post("/admin/category/create", data);
     },
-    getListCategory(params) {
-        return axiosClient.get("/admin/category/list", { params });
+    getListCategory() {
+        return axiosClient.get("/admin/category/list");
     },
     getDetailCategory(id) {
         return axiosClient.get(`/admin/category/${id}`);

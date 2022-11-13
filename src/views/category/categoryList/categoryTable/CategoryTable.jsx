@@ -7,6 +7,9 @@ import BaseModal from "src/components/modal/Modal";
 import { useState } from "react";
 import categoryChildrenApi from "src/api/categoryChildren";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import categoryApi from "src/api/categoryApi";
+import { updateListCategory } from "../../categorySlice";
 
 const CategoryTable = (props) => {
     const { data, categoryIdParent } = props;
@@ -14,6 +17,7 @@ const CategoryTable = (props) => {
     const [id, setId] = useState(null);
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleClickGoToPage = (type, id) => {
         switch (type) {
@@ -34,7 +38,13 @@ const CategoryTable = (props) => {
         const response = await categoryChildrenApi.deleteCategory(id);
 
         if (response.statusCode === 0) {
-            navigate("/category");
+            (async () => {
+                const response = await categoryApi.getListCategory();
+
+                if (response.statusCode === 0) {
+                    dispatch(updateListCategory(response.data.categories));
+                }
+            })();
             toast("Xoá danh mục thành công");
         } else {
             navigate("/category");
@@ -52,7 +62,7 @@ const CategoryTable = (props) => {
                         Chưa có danh mục con, bạn có muốn <Link to="/category/create">thêm</Link> không?
                     </span>
                     <div className="d-flex gap-2">
-                        <ButtonGroupAction actions={handleClickGoToPage} id={categoryIdParent} />
+                        <ButtonGroupAction canDelete={false} actions={handleClickGoToPage} id={categoryIdParent} />
                     </div>
                 </div>
             ) : (
@@ -60,7 +70,7 @@ const CategoryTable = (props) => {
                     <div className="mb-3 d-flex justify-content-between align-items-center">
                         <Link to="/category/create">Thêm danh mục con</Link>
                         <div className="d-flex gap-2">
-                            <ButtonGroupAction actions={handleClickGoToPage} id={categoryIdParent} />
+                            <ButtonGroupAction canDelete={false} actions={handleClickGoToPage} id={categoryIdParent} />
                         </div>
                     </div>
                     <CTable hover bordered>
@@ -81,7 +91,11 @@ const CategoryTable = (props) => {
                                         <CTableHeaderCell scope="row">{category.categorySlug}</CTableHeaderCell>
                                         <CTableHeaderCell scope="row" style={{ width: "130px" }}>
                                             <div className="d-flex gap-2">
-                                                <ButtonGroupAction actions={handleClickGoToPage} id={category.id} />
+                                                <ButtonGroupAction
+                                                    canDelete={true}
+                                                    actions={handleClickGoToPage}
+                                                    id={category.id}
+                                                />
                                             </div>
                                         </CTableHeaderCell>
                                     </CTableRow>
