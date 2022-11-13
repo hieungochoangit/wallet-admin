@@ -12,7 +12,7 @@ const CategoryList = (props) => {
                         <CAccordionItem key={category.id} itemKey={category.id}>
                             <CAccordionHeader>{category.categoryName}</CAccordionHeader>
                             <CAccordionBody>
-                                <CategoryTable data={category.categoryChildren} />
+                                <CategoryTable categoryIdParent={category.id} data={category.categoryChildren} />
                             </CAccordionBody>
                         </CAccordionItem>
                     ))}

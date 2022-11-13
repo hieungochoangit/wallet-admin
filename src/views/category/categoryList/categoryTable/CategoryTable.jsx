@@ -1,9 +1,27 @@
 import React from "react";
 import { CTable, CTableHead, CTableRow, CTableHeaderCell, CTableBody, CButton } from "@coreui/react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ButtonGroupAction from "src/components/button/ButtonGroupAction";
 
 const CategoryTable = (props) => {
-    const { data } = props;
+    const { data, categoryIdParent } = props;
+
+    const navigate = useNavigate();
+
+    const handleClickGoToPage = (type, id) => {
+        switch (type) {
+            case "view":
+                navigate(`/category/${id}`);
+                break;
+            case "edit":
+                navigate(`/category/edit/${id}`);
+                break;
+            case "delete":
+                console.log("delete: ", id);
+                break;
+        }
+    };
 
     return (
         <>
@@ -13,21 +31,7 @@ const CategoryTable = (props) => {
                         Chưa có danh mục con, bạn có muốn <Link to="/category/create">thêm</Link> không?
                     </span>
                     <div className="d-flex gap-2">
-                        <Link>
-                            <CButton color="primary" size="sm">
-                                Xem
-                            </CButton>
-                        </Link>
-                        <Link>
-                            <CButton color="info" size="sm">
-                                Sửa
-                            </CButton>
-                        </Link>
-                        <Link>
-                            <CButton color="dark" size="sm">
-                                Xoá
-                            </CButton>
-                        </Link>
+                        <ButtonGroupAction actions={handleClickGoToPage} id={categoryIdParent} />
                     </div>
                 </div>
             ) : (
@@ -35,21 +39,7 @@ const CategoryTable = (props) => {
                     <div className="mb-3 d-flex justify-content-between align-items-center">
                         <Link to="/category/create">Thêm danh mục con</Link>
                         <div className="d-flex gap-2">
-                            <Link>
-                                <CButton color="primary" size="sm">
-                                    Xem
-                                </CButton>
-                            </Link>
-                            <Link>
-                                <CButton color="info" size="sm">
-                                    Sửa
-                                </CButton>
-                            </Link>
-                            <Link>
-                                <CButton color="dark" size="sm">
-                                    Xoá
-                                </CButton>
-                            </Link>
+                            <ButtonGroupAction actions={handleClickGoToPage} id={categoryIdParent} />
                         </div>
                     </div>
                     <CTable hover bordered>
@@ -68,23 +58,9 @@ const CategoryTable = (props) => {
                                         <CTableHeaderCell scope="row">{category.id}</CTableHeaderCell>
                                         <CTableHeaderCell scope="row">{category.categoryName}</CTableHeaderCell>
                                         <CTableHeaderCell scope="row">{category.categorySlug}</CTableHeaderCell>
-                                        <CTableHeaderCell scope="row" style={{ width: "160px" }}>
+                                        <CTableHeaderCell scope="row" style={{ width: "130px" }}>
                                             <div className="d-flex gap-2">
-                                                <Link>
-                                                    <CButton color="primary" size="sm">
-                                                        Xem
-                                                    </CButton>
-                                                </Link>
-                                                <Link>
-                                                    <CButton color="info" size="sm">
-                                                        Sửa
-                                                    </CButton>
-                                                </Link>
-                                                <Link>
-                                                    <CButton color="dark" size="sm">
-                                                        Xoá
-                                                    </CButton>
-                                                </Link>
+                                                <ButtonGroupAction actions={handleClickGoToPage} id={category.id} />
                                             </div>
                                         </CTableHeaderCell>
                                     </CTableRow>
