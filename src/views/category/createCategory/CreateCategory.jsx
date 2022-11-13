@@ -17,10 +17,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { convertToSlug } from "src/common/functions";
-import categoryApi from "src/api/categoryApi";
+import { useSelector } from "react-redux";
+import categoryChildrenApi from "src/api/categoryChildren";
 
 const CreateCategory = () => {
     const navigate = useNavigate();
+    const categories = useSelector((state) => state.category.list);
     const {
         register,
         handleSubmit,
@@ -32,7 +34,7 @@ const CreateCategory = () => {
         const categorySlug = convertToSlug(data.categoryName);
         data.categorySlug = categorySlug;
 
-        const response = await categoryApi.createCategory(data);
+        const response = await categoryChildrenApi.createCategory(data);
 
         if (response) {
             toast(response.data.message);
@@ -70,26 +72,14 @@ const CreateCategory = () => {
                         </div>
                         <div className="mb-3">
                             <CFormLabel htmlFor="exampleFormControlInput1">
-                                Mô tả danh mục <span style={{ color: "red" }}>*</span>
+                                Thuộc danh mục <span style={{ color: "red" }}>*</span>
                             </CFormLabel>
-                            <CFormInput
-                                {...register("categoryDesc", { required: true })}
-                                type="text"
-                                placeholder="mô tả danh mục"
-                            />
-                            {errors.categoryDesc?.type === "required" && (
-                                <CFormText style={{ color: "red" }} className="help-block mb-2">
-                                    Vui lòng nhập mô tả danh mục
-                                </CFormText>
-                            )}
-                        </div>
-                        <div className="mb-3">
-                            <CFormLabel htmlFor="exampleFormControlInput1">
-                                Loại danh mục <span style={{ color: "red" }}>*</span>
-                            </CFormLabel>
-                            <CFormSelect {...register("categoryType")} aria-label="Default select example">
-                                <option value="0">VIP</option>
-                                <option value="1">NORMAL</option>
+                            <CFormSelect {...register("categoryId")} aria-label="Default select example">
+                                {categories.map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.categoryName}
+                                    </option>
+                                ))}
                             </CFormSelect>
                         </div>
                         <CButton type="submit">Tạo</CButton>
