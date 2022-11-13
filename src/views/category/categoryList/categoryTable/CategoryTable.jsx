@@ -3,9 +3,15 @@ import { CTable, CTableHead, CTableRow, CTableHeaderCell, CTableBody, CButton } 
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ButtonGroupAction from "src/components/button/ButtonGroupAction";
+import BaseModal from "src/components/modal/Modal";
+import { useState } from "react";
+import categoryChildrenApi from "src/api/categoryChildren";
+import { toast } from "react-toastify";
 
 const CategoryTable = (props) => {
     const { data, categoryIdParent } = props;
+    const [visible, setVisible] = useState(false);
+    const [id, setId] = useState(null);
 
     const navigate = useNavigate();
 
@@ -18,9 +24,24 @@ const CategoryTable = (props) => {
                 navigate(`/category/edit/${id}`);
                 break;
             case "delete":
-                console.log("delete: ", id);
+                setVisible(true);
+                setId(id);
                 break;
         }
+    };
+
+    const handleClickAccess = async () => {
+        const response = await categoryChildrenApi.deleteCategory(id);
+
+        if (response.statusCode === 0) {
+            navigate("/category");
+            toast("Xoá danh mục thành công");
+        } else {
+            navigate("/category");
+            toast("Xoá danh mục thất bại");
+        }
+
+        setVisible(false);
     };
 
     return (
@@ -70,6 +91,11 @@ const CategoryTable = (props) => {
                     </CTable>
                 </>
             )}
+
+            {/* Dialog delete */}
+            <BaseModal visible={visible} setVisible={setVisible} onClickAccess={handleClickAccess}>
+                Bạn có muốn xoá danh mục này không?
+            </BaseModal>
         </>
     );
 };
