@@ -36,22 +36,22 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getUser.pending, (state, actions) => {
-            console.log("get user pending");
-            console.log("state: ", state);
-            console.log("actions: ", actions);
+            // console.log("get user pending");
+            // console.log("state: ", state);
+            // console.log("actions: ", actions);
         });
 
         builder.addCase(getUser.fulfilled, (state, actions) => {
-            console.log("get user fulfilled");
-            console.log("state: ", state);
-            console.log("actions: ", actions);
+            // console.log("get user fulfilled");
+            // console.log("state: ", state);
+            // console.log("actions: ", actions);
             state.username = actions.payload.data.username;
         });
 
         builder.addCase(getUser.rejected, (state, actions) => {
-            console.log("get user rejected");
-            console.log("state: ", state);
-            console.log("actions: ", actions);
+            // console.log("get user rejected");
+            // console.log("state: ", state);
+            // console.log("actions: ", actions);
         });
     },
 });

@@ -7,6 +7,9 @@ const categoryChildrenApi = {
     deleteCategory(id) {
         return axiosClient.get(`/admin/category-children/delete/${id}`);
     },
+    getDetailCategoryChildren(id) {
+        return axiosClient.get(`/admin/category-children/detail/${id}`);
+    },
 };
 
 export default categoryChildrenApi;

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { CButton } from "@coreui/react";
 import categoryApi from "src/api/categoryApi";
+import categoryChildrenApi from "src/api/categoryChildren";
 
 const DetailCategory = () => {
     const params = useParams();
@@ -15,6 +16,9 @@ const DetailCategory = () => {
             const response = await categoryApi.getDetailCategory(params.id);
 
             if (response.statusCode === 0) {
+                setCategory(response.data.data);
+            } else {
+                const response = await categoryChildrenApi.getDetailCategoryChildren(params.id);
                 setCategory(response.data.data);
             }
         })();
