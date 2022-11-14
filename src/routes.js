@@ -55,6 +55,8 @@ const CreateCategory = React.lazy(() => import("./views/category/createCategory/
 const DetailCategory = React.lazy(() => import("./views/category/detailCategory/DetailCategory"));
 const EditCategory = React.lazy(() => import("./views/category/editCategory/EditCategory"));
 
+const Product = React.lazy(() => import("./views/product/Product"));
+
 const routes = [
     { path: "/", exact: true, name: "Home" },
     { path: "/dashboard", name: "Dashboard", element: Dashboard },
@@ -62,6 +64,9 @@ const routes = [
     { path: "/category/:id", name: "Category", element: DetailCategory },
     { path: "/category/create", name: "Create Category", element: CreateCategory },
     { path: "/category/edit/:id", name: "Edit Category", element: EditCategory },
+
+    { path: "/product", name: "Product", element: Product },
+
     { path: "/theme", name: "Theme", element: Colors, exact: true },
     { path: "/theme/colors", name: "Colors", element: Colors },
     { path: "/theme/typography", name: "Typography", element: Typography },

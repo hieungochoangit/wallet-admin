@@ -35,6 +35,15 @@ const _nav = [
             color: "info",
         },
     },
+    {
+        component: CNavItem,
+        name: "Sản phẩm",
+        to: "/product",
+        icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+        badge: {
+            color: "info",
+        },
+    },
     // {
     //     component: CNavTitle,
     //     name: "Theme",
